@@ -1,0 +1,6 @@
+@InformacioniSistemZU_HostAddress = http://localhost:5113
+
+GET {{InformacioniSistemZU_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

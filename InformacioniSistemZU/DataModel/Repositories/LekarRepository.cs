@@ -14,22 +14,29 @@ namespace InformacioniSistemZU.DataModel.Repositories
         }
         public Lekar IzbrisiLekara(int id)
         {
+            if (id <= 0) //ovo se zove defanzivno programiranje. Ako neko prosledi parametre koji nemaju veze sa vezom, u startu ga izbacis iz metode. Nije obavezno svakako ali je pozeljno na nekom nivou
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
             if (dataLekar == null)
             {
-                return null;
+                return null; //izbegavaj da vracas null; ima nekoliko misljenja sta treba da se vrati (pricacemo), ali null skoro pa nikad
             }
             _dbContext.Remove(dataLekar);
             _dbContext.SaveChanges();
-            return dataLekar;
+            return dataLekar; //sto ovde vracas objekar lekara?
         }
 
         public Lekar IzmeniLekara(int id, Lekar lekar)
         {
+            ArgumentNullException.ThrowIfNull(lekar); //defanzivno programiranje
+
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
             if (dataLekar == null)
             {
-                return null;
+                return null; //izbegavaj da vracas null; ima nekoliko misljenja sta treba da se vrati (pricacemo), ali null skoro pa nikad
             }
             dataLekar.Ime = lekar.Ime;
             dataLekar.Prezime = lekar.Prezime;
@@ -51,13 +58,15 @@ namespace InformacioniSistemZU.DataModel.Repositories
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
             if(dataLekar == null)
             {
-                return null;
+                return null; //ovaj ceo IF deo koda ti je visak, pogledaj opet. Moze isti kod kao kod PregledLekara(). (ovde i ima smisla da se vrati null) 
             }
             return dataLekar;
         }
 
         public Lekar UnesiLekara(Lekar lekar)
         {
+            ArgumentNullException.ThrowIfNull(lekar); //defanzivno programiranje
+
             _dbContext.Lekari.Add(lekar);
             _dbContext.SaveChanges();
             return lekar;

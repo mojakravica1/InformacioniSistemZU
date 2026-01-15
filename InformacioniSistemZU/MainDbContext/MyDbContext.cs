@@ -1,7 +1,7 @@
 ﻿using InformacioniSistemZU.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformacioniSistemZU.MyDbContext
+namespace InformacioniSistemZU.MainDbContext
 {
     public class MyDbContext : DbContext
     {

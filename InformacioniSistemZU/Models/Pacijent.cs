@@ -1,4 +1,6 @@
-﻿namespace InformacioniSistemZU.Models
+﻿using static InformacioniSistemZU.Enums.Enums;
+
+namespace InformacioniSistemZU.Models
 {
     public class Pacijent
     {
@@ -7,7 +9,7 @@
         public string Prezime { get; set; }
         public string Jmbg { get; set; }
         public DateTime DatumRodjenja { get; set; }
-        public string Pol {  get; set; }
+        public Pol Pol {  get; set; }
         public DateTime DatumKreiranja { get; set; }
         public bool isActive { get; set; }
         public int LekarId { get; set; }

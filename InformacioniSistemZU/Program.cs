@@ -1,4 +1,5 @@
-using InformacioniSistemZU.MyDbContext;
+using InformacioniSistemZU.DataModel.Repositories;
+using InformacioniSistemZU.MainDbContext;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConn")));
+
+builder.Services.AddScoped<ILekarRepository, LekarRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

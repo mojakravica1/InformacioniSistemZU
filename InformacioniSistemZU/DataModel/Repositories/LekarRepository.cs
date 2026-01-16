@@ -56,10 +56,12 @@ namespace InformacioniSistemZU.DataModel.Repositories
         public Lekar PregledLekaraPoId(int id)
         {
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
+            
+            /*
             if(dataLekar == null)
             {
                 return null; //ovaj ceo IF deo koda ti je visak, pogledaj opet. Moze isti kod kao kod PregledLekara(). (ovde i ima smisla da se vrati null) 
-            }
+            }*/
             return dataLekar;
         }
 

@@ -22,11 +22,11 @@ namespace InformacioniSistemZU.DataModel.Repositories
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
             if (dataLekar == null)
             {
-                return null; //izbegavaj da vracas null; ima nekoliko misljenja sta treba da se vrati (pricacemo), ali null skoro pa nikad
+                return null;
             }
             _dbContext.Remove(dataLekar);
             _dbContext.SaveChanges();
-            return dataLekar; //sto ovde vracas objekar lekara?
+            return dataLekar; 
         }
 
         public Lekar IzmeniLekara(int id, Lekar lekar)
@@ -36,19 +36,19 @@ namespace InformacioniSistemZU.DataModel.Repositories
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
             if (dataLekar == null)
             {
-                return null; //izbegavaj da vracas null; ima nekoliko misljenja sta treba da se vrati (pricacemo), ali null skoro pa nikad
+                return null; 
             }
-            dataLekar.Ime = lekar.Ime;
+            dataLekar.Ime = lekar.Ime; 
             dataLekar.Prezime = lekar.Prezime;
             dataLekar.Jmbg = lekar.Jmbg;
             dataLekar.DatumRodjenja = lekar.DatumRodjenja;
-            dataLekar.isActive = lekar.isActive;
+            dataLekar.IsActive = lekar.IsActive;
             dataLekar.Specijalnost = lekar.Specijalnost;
             _dbContext.SaveChanges();
             return dataLekar;
         }
 
-        public IEnumerable<Lekar> PregledLekara()
+        public IEnumerable<Lekar> PregledLekara() //TODO naziv metode VratiSveLekare()
         {
             return _dbContext.Lekari.ToList();
         }
@@ -57,11 +57,6 @@ namespace InformacioniSistemZU.DataModel.Repositories
         {
             var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
             
-            /*
-            if(dataLekar == null)
-            {
-                return null; //ovaj ceo IF deo koda ti je visak, pogledaj opet. Moze isti kod kao kod PregledLekara(). (ovde i ima smisla da se vrati null) 
-            }*/
             return dataLekar;
         }
 

@@ -11,7 +11,7 @@ namespace InformacioniSistemZU.Models
         public DateTime DatumRodjenja { get; set; }
         public Pol Pol {get; set; }
         public string Opis { get; set; }
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
         public Specijalnost Specijalnost { get; set; }
     }
 }

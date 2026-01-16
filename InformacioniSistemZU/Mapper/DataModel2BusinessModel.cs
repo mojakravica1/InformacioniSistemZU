@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using InformacioniSistemZU.BusinessModell.ModelsBM;
+using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
 
 namespace InformacioniSistemZU.Mapper
@@ -8,7 +8,7 @@ namespace InformacioniSistemZU.Mapper
     {
         public DataModel2BusinessModel()
         {
-            CreateMap<Lekar, LekarBM>();
+            CreateMap<Lekar, LekarDtoResponse>();
         }
     }
 }

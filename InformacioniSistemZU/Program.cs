@@ -13,7 +13,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConn")));
 
 builder.Services.AddScoped<ILekarRepository, LekarRepository>();
-builder.Services.AddScoped<ILekarRepositoryBM, LekarRepositoryBM>();
+builder.Services.AddScoped<ILekarService, LekarService>();
 
 builder.Services.AddAutoMapper(ops => ops.AddProfile<DataModel2BusinessModel>());
 

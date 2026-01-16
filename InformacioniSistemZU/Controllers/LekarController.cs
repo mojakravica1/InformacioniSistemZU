@@ -8,9 +8,9 @@ namespace InformacioniSistemZU.Controllers
     [ApiController]
     public class LekarController : ControllerBase
     {
-        private readonly ILekarRepositoryBM _repositoryBM;
+        private readonly ILekarService _repositoryBM;
 
-        public LekarController(ILekarRepositoryBM repositoryBM)
+        public LekarController(ILekarService repositoryBM)
         {
             _repositoryBM = repositoryBM;
         }

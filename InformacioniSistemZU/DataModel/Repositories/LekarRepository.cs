@@ -48,16 +48,14 @@ namespace InformacioniSistemZU.DataModel.Repositories
             return dataLekar;
         }
 
-        public IEnumerable<Lekar> PregledLekara() //TODO naziv metode VratiSveLekare()
+        public IEnumerable<Lekar> VratiSveLekare() 
         {
             return _dbContext.Lekari.ToList();
         }
 
-        public Lekar PregledLekaraPoId(int id)
+        public Lekar VratiLekaraPoId(int id)
         {
-            var dataLekar = _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
-            
-            return dataLekar;
+            return _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
         }
 
         public Lekar UnesiLekara(Lekar lekar)

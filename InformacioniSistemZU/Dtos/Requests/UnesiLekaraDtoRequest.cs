@@ -1,10 +1,9 @@
 ﻿using static InformacioniSistemZU.Enums.Enums;
 
-namespace InformacioniSistemZU.Models
+namespace InformacioniSistemZU.Dtos.Requests
 {
-    public class Lekar
+    public class UnesiLekaraDtoRequest
     {
-        public int Id { get; set; }
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string Jmbg { get; set; }
@@ -12,6 +11,6 @@ namespace InformacioniSistemZU.Models
         public Pol Pol { get; set; }
         public string Opis { get; set; }
         public bool IsActive { get; set; }
-        public Specijalnost Specijalnost { get; set; }
+        public int SpecijalnostId { get; set; }
     }
 }

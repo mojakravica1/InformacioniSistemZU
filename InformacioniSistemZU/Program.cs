@@ -1,5 +1,5 @@
-using AutoMapper;
 using InformacioniSistemZU.BusinessModell.RepositoriesBM;
+using InformacioniSistemZU.BusinessModell.Services;
 using InformacioniSistemZU.DataModel.Repositories;
 using InformacioniSistemZU.MainDbContext;
 using InformacioniSistemZU.Mapper;
@@ -13,9 +13,11 @@ builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConn")));
 
 builder.Services.AddScoped<ILekarRepository, LekarRepository>();
+builder.Services.AddScoped<IPacijentRepository, PacijentRepository>();
 builder.Services.AddScoped<ILekarService, LekarService>();
+builder.Services.AddScoped<IPacijentService, PacijentService>();
 
-builder.Services.AddAutoMapper(ops => ops.AddProfile<DataModel2BusinessModel>());
+builder.Services.AddAutoMapper(ops => ops.AddProfile<MapperProfiles>());
 
 
 builder.Services.AddControllers();

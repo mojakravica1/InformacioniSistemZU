@@ -11,6 +11,10 @@ namespace InformacioniSistemZU.Mapper
         {
             CreateMap<Lekar, LekarDtoResponse>().ReverseMap();
             CreateMap<UnesiLekaraDtoRequest, LekarDtoResponse>().ReverseMap();
+            CreateMap<UnesiLekaraDtoRequest, Lekar>();
+            CreateMap<IzmeniLekaraDtoRequest, Lekar>();
+            CreateMap<Pacijent, PacijentDtoResponse>();
+            CreateMap<UnesiPacijentaDtoRequest, Pacijent>();
         }
     }
 }

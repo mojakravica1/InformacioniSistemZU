@@ -3,6 +3,7 @@ using InformacioniSistemZU.DataModel.Repositories;
 using InformacioniSistemZU.Dtos.Requests;
 using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 {
@@ -17,22 +18,35 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
             _mapper = mapper;
         }
 
-        public LekarDtoResponse IzmeniLekara(int id, LekarDtoResponse lekar)
+        public LekarDtoResponse IzmeniLekara(int id, IzmeniLekaraDtoRequest lekarRequest)
         {
-            throw new NotImplementedException();
+            var dataLekar = _mapper.Map<Lekar>(lekarRequest);
+            var izmenjeniLekar = _lekarRepository.IzmeniLekara(id, dataLekar);
+            if (izmenjeniLekar == null)
+            {
+                return null;
+            }
+            var lekarResponse = _mapper.Map<LekarDtoResponse>(izmenjeniLekar);
+            return lekarResponse;
         }
 
         public LekarDtoResponse ObrisiLekara(int id)
         {
-            throw new NotImplementedException();
+            var dataLekar = _lekarRepository.IzbrisiLekara(id);
+            if (dataLekar == null)
+            {
+                return null;
+            }
+            var lekarResponse = _mapper.Map<LekarDtoResponse>(dataLekar);
+            return lekarResponse;
         }
 
-        public LekarDtoResponse UnesiLekara(LekarDtoResponse lekar)
+        public LekarDtoResponse UnesiLekara(UnesiLekaraDtoRequest lekarRequest)
         {
-            var dataLekar = _mapper.Map<Lekar>(lekar);
-            dataLekar = _lekarRepository.UnesiLekara(dataLekar);
-            var bmLekar = _mapper.Map<LekarDtoResponse>(dataLekar);
-            return bmLekar;
+            var dataLekar = _mapper.Map<Lekar>(lekarRequest);
+            var kreiraniLekar = _lekarRepository.UnesiLekara(dataLekar);
+            var lekarResponse = _mapper.Map<LekarDtoResponse>(kreiraniLekar);
+            return lekarResponse;
         }
 
         public LekarDtoResponse VratiLekaraPoId(int id)

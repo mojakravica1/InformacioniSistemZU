@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InformacioniSistemZU.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20260116005250_Pocetna_Migracija")]
-    partial class Pocetna_Migracija
+    [Migration("20260117220905_Pocetna")]
+    partial class Pocetna
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,9 @@ namespace InformacioniSistemZU.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Jmbg")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -74,9 +77,6 @@ namespace InformacioniSistemZU.Migrations
 
                     b.Property<int>("SpecijalnostId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -103,6 +103,9 @@ namespace InformacioniSistemZU.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Jmbg")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -116,9 +119,6 @@ namespace InformacioniSistemZU.Migrations
                     b.Property<string>("Prezime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -146,6 +146,12 @@ namespace InformacioniSistemZU.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DijagnozaId");
+
+                    b.HasIndex("LekarId");
+
+                    b.HasIndex("PacijentId");
 
                     b.ToTable("Pregledi");
                 });
@@ -176,6 +182,33 @@ namespace InformacioniSistemZU.Migrations
                         .IsRequired();
 
                     b.Navigation("Specijalnost");
+                });
+
+            modelBuilder.Entity("InformacioniSistemZU.Models.Pregled", b =>
+                {
+                    b.HasOne("InformacioniSistemZU.Models.Dijagnoza", "Dijagnoza")
+                        .WithMany()
+                        .HasForeignKey("DijagnozaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InformacioniSistemZU.Models.Lekar", "Lekar")
+                        .WithMany()
+                        .HasForeignKey("LekarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InformacioniSistemZU.Models.Pacijent", "Pacijent")
+                        .WithMany()
+                        .HasForeignKey("PacijentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dijagnoza");
+
+                    b.Navigation("Lekar");
+
+                    b.Navigation("Pacijent");
                 });
 #pragma warning restore 612, 618
         }

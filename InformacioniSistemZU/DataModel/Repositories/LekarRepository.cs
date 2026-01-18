@@ -42,6 +42,7 @@ namespace InformacioniSistemZU.DataModel.Repositories
             dataLekar.Prezime = lekar.Prezime;
             dataLekar.Jmbg = lekar.Jmbg;
             dataLekar.DatumRodjenja = lekar.DatumRodjenja;
+            dataLekar.Opis = lekar.Opis;
             dataLekar.IsActive = lekar.IsActive;
             dataLekar.Specijalnost = lekar.Specijalnost;
             _dbContext.SaveChanges();

@@ -1,4 +1,5 @@
-﻿using InformacioniSistemZU.Dtos.Responses;
+﻿using InformacioniSistemZU.Dtos.Requests;
+using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
 
 namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
@@ -7,8 +8,8 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
     {
         IEnumerable<LekarDtoResponse> VratiSveLekare();
         LekarDtoResponse VratiLekaraPoId(int id);
-        LekarDtoResponse UnesiLekara(LekarDtoResponse lekar);
-        LekarDtoResponse IzmeniLekara(int id, LekarDtoResponse lekar);
+        LekarDtoResponse UnesiLekara(UnesiLekaraDtoRequest lekarRequest);
+        LekarDtoResponse IzmeniLekara(int id, IzmeniLekaraDtoRequest lekarRequest);
         LekarDtoResponse ObrisiLekara(int id);
     }
 }

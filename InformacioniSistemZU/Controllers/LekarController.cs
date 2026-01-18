@@ -19,13 +19,15 @@ namespace InformacioniSistemZU.Controllers
             _lekarservice = lekarService;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult VratiSveLekare()
         {
             return Ok(_lekarservice.VratiSveLekare());
         }
+
         [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        public IActionResult VratiLekaraPoId(int id)
         {
             var lekarExist = _lekarservice.VratiLekaraPoId(id);
             if (lekarExist == null)
@@ -34,13 +36,35 @@ namespace InformacioniSistemZU.Controllers
             }
             return Ok(lekarExist);
         }
+
         [HttpPost]
-        public IActionResult Post(UnesiLekaraDtoRequest unesiLekara)
+        public IActionResult SacuvajLekara(UnesiLekaraDtoRequest unesiLekara)
         {
-            var bmLekar = _mapper.Map<LekarDtoResponse>(unesiLekara);
-            bmLekar = _lekarservice.UnesiLekara(bmLekar);
-            var response = _mapper.Map<UnesiLekaraDtoRequest>(bmLekar);
-            return Ok(response);
+            var unetiLekar = _lekarservice.UnesiLekara(unesiLekara);
+           
+            return Ok(unetiLekar);
+        }
+
+        [HttpPut("{id:int}")]
+        public IActionResult IzmeniLekara(int id, IzmeniLekaraDtoRequest izmeniLekara)
+        {
+            var izmenjeniLekar = _lekarservice.IzmeniLekara(id, izmeniLekara);
+            if (izmenjeniLekar == null)
+            {
+                return NotFound();
+            }
+            return Ok(izmenjeniLekar);
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult ObrisiLekara(int id)
+        {
+            var obrisaniLekar = _lekarservice.ObrisiLekara(id);
+            if (obrisaniLekar == null)
+            {
+                return NotFound();
+            }
+            return Ok(obrisaniLekar);
         }
     }
 }

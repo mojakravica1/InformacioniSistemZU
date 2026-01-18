@@ -1,6 +1,12 @@
-﻿namespace InformacioniSistemZU.BusinessModell.Services
+﻿using InformacioniSistemZU.Dtos.Requests;
+using InformacioniSistemZU.Dtos.Responses;
+
+namespace InformacioniSistemZU.BusinessModell.Services
 {
     public interface IPacijentService
     {
+        IEnumerable<PacijentDtoResponse> VratiSvePacijente();
+        PacijentDtoResponse VratiPacijentaPoId(int id);
+        PacijentDtoResponse UnesiPacijenta(UnesiPacijentaDtoRequest pacijentRequest);
     }
 }

@@ -4,6 +4,7 @@ using InformacioniSistemZU.Dtos.Requests;
 using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Data;
 
 namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 {
@@ -11,11 +12,13 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
     {
         private readonly ILekarRepository _lekarRepository;
         private readonly IMapper _mapper;
+        private readonly ISpecijalnostRepository _specijalnostRepository;
 
-        public LekarService(ILekarRepository lekarRepository, IMapper mapper)
+        public LekarService(ILekarRepository lekarRepository, IMapper mapper, ISpecijalnostRepository specijalnostRepository)
         {
             _lekarRepository = lekarRepository;
             _mapper = mapper;
+            _specijalnostRepository = specijalnostRepository;
         }
 
         public LekarDtoResponse IzmeniLekara(int id, IzmeniLekaraDtoRequest lekarRequest)
@@ -44,6 +47,11 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
         public LekarDtoResponse UnesiLekara(UnesiLekaraDtoRequest lekarRequest)
         {
             var dataLekar = _mapper.Map<Lekar>(lekarRequest);
+            var daLiPostoji = _specijalnostRepository.DaLiPostoji(lekarRequest.SpecijalnostId); // verovatno postoji drugi nacin, ali mi bar ne puca program ;)
+            if (daLiPostoji == null)                                                            // Salim se. Ne znam kako da mu napisem poruku iz ovog dela, ali ce dodjemo i do toga 
+            {
+                return null;
+            }
             var kreiraniLekar = _lekarRepository.UnesiLekara(dataLekar);
             var lekarResponse = _mapper.Map<LekarDtoResponse>(kreiraniLekar);
             return lekarResponse;

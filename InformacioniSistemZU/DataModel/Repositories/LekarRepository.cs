@@ -67,5 +67,7 @@ namespace InformacioniSistemZU.DataModel.Repositories
             _dbContext.SaveChanges();
             return lekar;
         }
+
+     
     }
 }

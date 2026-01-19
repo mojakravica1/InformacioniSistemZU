@@ -1,6 +1,7 @@
 ﻿using InformacioniSistemZU.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace InformacioniSistemZU.MainDbContext
 {
     public class MyDbContext : DbContext
@@ -15,5 +16,6 @@ namespace InformacioniSistemZU.MainDbContext
         public DbSet<Pacijent> Pacijenti { get; set; }
         public DbSet<Pregled> Pregledi {  get; set; }
         public DbSet<Specijalnost> Specijalnosti { get; set; }
+        
     }
 }

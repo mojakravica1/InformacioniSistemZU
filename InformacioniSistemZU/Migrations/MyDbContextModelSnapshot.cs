@@ -107,7 +107,7 @@ namespace InformacioniSistemZU.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LekarId")
+                    b.Property<int?>("LekarId")
                         .HasColumnType("int");
 
                     b.Property<byte>("Pol")
@@ -118,6 +118,8 @@ namespace InformacioniSistemZU.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LekarId");
 
                     b.ToTable("Pacijenti");
                 });
@@ -136,10 +138,10 @@ namespace InformacioniSistemZU.Migrations
                     b.Property<int>("DijagnozaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LekarId")
+                    b.Property<int?>("LekarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PacijentId")
+                    b.Property<int?>("PacijentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -181,6 +183,15 @@ namespace InformacioniSistemZU.Migrations
                     b.Navigation("Specijalnost");
                 });
 
+            modelBuilder.Entity("InformacioniSistemZU.Models.Pacijent", b =>
+                {
+                    b.HasOne("InformacioniSistemZU.Models.Lekar", "Lekar")
+                        .WithMany("Pacijenti")
+                        .HasForeignKey("LekarId");
+
+                    b.Navigation("Lekar");
+                });
+
             modelBuilder.Entity("InformacioniSistemZU.Models.Pregled", b =>
                 {
                     b.HasOne("InformacioniSistemZU.Models.Dijagnoza", "Dijagnoza")
@@ -190,22 +201,30 @@ namespace InformacioniSistemZU.Migrations
                         .IsRequired();
 
                     b.HasOne("InformacioniSistemZU.Models.Lekar", "Lekar")
-                        .WithMany()
-                        .HasForeignKey("LekarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Pregledi")
+                        .HasForeignKey("LekarId");
 
                     b.HasOne("InformacioniSistemZU.Models.Pacijent", "Pacijent")
-                        .WithMany()
-                        .HasForeignKey("PacijentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Pregledi")
+                        .HasForeignKey("PacijentId");
 
                     b.Navigation("Dijagnoza");
 
                     b.Navigation("Lekar");
 
                     b.Navigation("Pacijent");
+                });
+
+            modelBuilder.Entity("InformacioniSistemZU.Models.Lekar", b =>
+                {
+                    b.Navigation("Pacijenti");
+
+                    b.Navigation("Pregledi");
+                });
+
+            modelBuilder.Entity("InformacioniSistemZU.Models.Pacijent", b =>
+                {
+                    b.Navigation("Pregledi");
                 });
 #pragma warning restore 612, 618
         }

@@ -25,26 +25,6 @@ namespace InformacioniSistemZU.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pacijenti",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prezime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Jmbg = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumRodjenja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Pol = table.Column<byte>(type: "tinyint", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    LekarId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pacijenti", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Specijalnosti",
                 columns: table => new
                 {
@@ -84,6 +64,31 @@ namespace InformacioniSistemZU.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pacijenti",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prezime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Jmbg = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatumRodjenja = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Pol = table.Column<byte>(type: "tinyint", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    LekarId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pacijenti", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pacijenti_Lekari_LekarId",
+                        column: x => x.LekarId,
+                        principalTable: "Lekari",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pregledi",
                 columns: table => new
                 {
@@ -91,8 +96,8 @@ namespace InformacioniSistemZU.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DijagnozaId = table.Column<int>(type: "int", nullable: false),
-                    PacijentId = table.Column<int>(type: "int", nullable: false),
-                    LekarId = table.Column<int>(type: "int", nullable: false)
+                    LekarId = table.Column<int>(type: "int", nullable: true),
+                    PacijentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -107,20 +112,23 @@ namespace InformacioniSistemZU.Migrations
                         name: "FK_Pregledi_Lekari_LekarId",
                         column: x => x.LekarId,
                         principalTable: "Lekari",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Pregledi_Pacijenti_PacijentId",
                         column: x => x.PacijentId,
                         principalTable: "Pacijenti",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lekari_SpecijalnostId",
                 table: "Lekari",
                 column: "SpecijalnostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pacijenti_LekarId",
+                table: "Pacijenti",
+                column: "LekarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pregledi_DijagnozaId",
@@ -148,10 +156,10 @@ namespace InformacioniSistemZU.Migrations
                 name: "Dijagnoze");
 
             migrationBuilder.DropTable(
-                name: "Lekari");
+                name: "Pacijenti");
 
             migrationBuilder.DropTable(
-                name: "Pacijenti");
+                name: "Lekari");
 
             migrationBuilder.DropTable(
                 name: "Specijalnosti");

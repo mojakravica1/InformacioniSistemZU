@@ -16,6 +16,7 @@ builder.Services.AddScoped<ILekarRepository, LekarRepository>();
 builder.Services.AddScoped<IPacijentRepository, PacijentRepository>();
 builder.Services.AddScoped<ILekarService, LekarService>();
 builder.Services.AddScoped<IPacijentService, PacijentService>();
+builder.Services.AddScoped<ISpecijalnostRepository, SpecijalnostRepository>();
 
 builder.Services.AddAutoMapper(ops => ops.AddProfile<MapperProfiles>());
 

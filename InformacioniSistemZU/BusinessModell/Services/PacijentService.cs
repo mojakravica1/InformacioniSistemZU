@@ -20,7 +20,7 @@ namespace InformacioniSistemZU.BusinessModell.Services
         public PacijentDtoResponse UnesiPacijenta(UnesiPacijentaDtoRequest pacijentRequest)
         {
             var dataPacijent = _mapper.Map<Pacijent>(pacijentRequest);
-            //int brojPacijenta = _pacijentRepository.VratiSvePacijente.Count(x=> x.);
+            //int brojPacijenta = _pacijentRepository.VratiSvePacijente.Count(x=> x.); //Nikola: gde je validacija? :P 
             var kreiraniPacijent = _pacijentRepository.UnesiPacijenta(dataPacijent);
             var response = _mapper.Map<PacijentDtoResponse>(kreiraniPacijent);
             return response;

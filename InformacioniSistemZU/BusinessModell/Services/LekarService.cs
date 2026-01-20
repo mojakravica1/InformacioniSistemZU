@@ -49,9 +49,9 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
             var dataLekar = _mapper.Map<Lekar>(lekarRequest);
             var daLiPostoji = _specijalnostRepository.DaLiPostoji(lekarRequest.SpecijalnostId); // verovatno postoji drugi nacin, ali mi bar ne puca program ;)
             if (daLiPostoji == null)                                                            // Salim se. Ne znam kako da mu napisem poruku iz ovog dela, ali ce dodjemo i do toga 
-            {
+            {                                                                                   // Nikola: dobar je nacin, to je to. Slazem se za poruku, necemo vracati null ovde
                 return null;
-            }
+            } 
             var kreiraniLekar = _lekarRepository.UnesiLekara(dataLekar);
             var lekarResponse = _mapper.Map<LekarDtoResponse>(kreiraniLekar);
             return lekarResponse;

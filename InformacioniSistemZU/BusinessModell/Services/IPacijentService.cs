@@ -8,5 +8,7 @@ namespace InformacioniSistemZU.BusinessModell.Services
         IEnumerable<PacijentDtoResponse> VratiSvePacijente();
         PacijentDtoResponse VratiPacijentaPoId(int id);
         PacijentDtoResponse UnesiPacijenta(UnesiPacijentaDtoRequest pacijentRequest);
+        PacijentDtoResponse IzmeniPacijenta (int id, IzmeniPacijentaDtoRequest pacijentRequest);
+        PacijentDtoResponse ObrisiPacijenta(int id);
     }
 }

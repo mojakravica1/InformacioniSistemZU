@@ -15,6 +15,7 @@ namespace InformacioniSistemZU.Mapper
             CreateMap<IzmeniLekaraDtoRequest, Lekar>();
             CreateMap<Pacijent, PacijentDtoResponse>();
             CreateMap<UnesiPacijentaDtoRequest, Pacijent>();
+            CreateMap<IzmeniPacijentaDtoRequest, Pacijent>();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace InformacioniSistemZU.DataModel.Repositories
         {
             _dbContext = dbContext;
         }
-        public Specijalnost DaLiPostoji(int id)
+        public Specijalnost VratiPoId(int id)
         {
             var daLiPostoji =  _dbContext.Specijalnosti.FirstOrDefault(x => x.Id == id);
             if (daLiPostoji == null)

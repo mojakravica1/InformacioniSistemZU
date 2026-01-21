@@ -35,10 +35,32 @@ namespace InformacioniSistemZU.Controllers
         }
 
         [HttpPost]
-        public IActionResult SacuvajPacijenta(UnesiPacijentaDtoRequest unesiRequest)
+        public IActionResult SacuvajPacijenta(UnesiPacijentaDtoRequest unesiPacijenta)
         {
-            var unetiPacijent = _pacijentService.UnesiPacijenta(unesiRequest);
+            var unetiPacijent = _pacijentService.UnesiPacijenta(unesiPacijenta);
             return Ok(unetiPacijent);
+        }
+
+        [HttpPut("{id:int}")]
+        public IActionResult IzmeniPacijenta(int id, IzmeniPacijentaDtoRequest izmeniPacijenta)
+        {
+            var izmenjeniPacijent = _pacijentService.IzmeniPacijenta(id, izmeniPacijenta);
+            if (izmenjeniPacijent == null)
+            {
+                return NotFound();
+            }
+            return Ok(izmenjeniPacijent);
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult ObrisiPacijenta(int id)
+        {
+            var obrisaniPacijent = _pacijentService.ObrisiPacijenta(id);
+            if (obrisaniPacijent ==null)
+            {
+                return NotFound();
+            }
+            return Ok(obrisaniPacijent);
         }
     }
 }

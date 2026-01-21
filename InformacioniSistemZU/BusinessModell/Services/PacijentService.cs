@@ -21,6 +21,7 @@ namespace InformacioniSistemZU.BusinessModell.Services
 
         public PacijentDtoResponse IzmeniPacijenta(int id, IzmeniPacijentaDtoRequest pacijentRequest)
         {
+            //TODO: razmisli da li ti ovde treba provera postojanja lekara i maksimalnog broja pacijenta
             var dataPacijent = _mapper.Map<Pacijent>(pacijentRequest);
             var izmenjeniPacijent = _pacijentRepository.IzmeniPacijenta(id, dataPacijent);
             if (izmenjeniPacijent == null)
@@ -48,12 +49,18 @@ namespace InformacioniSistemZU.BusinessModell.Services
 
             //IEnumerable<Pacijent> pacijenti = new List<Pacijent>();
 
-            var lekarId = _lekarRepository.VratiLekaraPoId(pacijentRequest.LekarId);
+            //TODO: prvo si trebao da napunis bazu i spremis podatke. Moras da proveris kod koji napises da li radi to sto treba, a za to ti trebaju podaci
+            //promasio si implementaciju :) da si napunio bazu i proverio video bi :P
+
+            var lekarId = _lekarRepository.VratiLekaraPoId(pacijentRequest.LekarId); //TODO: ovde si vratio objekar Lekar, a ne lekarId. Izmeni naziv promenljive
             IEnumerable<Lekar> lekari = _lekarRepository.VratiSveLekare().Where(x => x.Id == pacijentRequest.LekarId);
-            
+            //ove 2 linije koda ti rade apsolutno istu stvar u OVOM SLUCAJU, ne generalno. 
+            //pokusaj da razumes zasto u sustini vracaju isto
+
+            //los if uslov. Pokusaj opet sam pa ako se ne snadjes pomoci cu, previse se zakomplikovao
             if (lekari.Count() > 5 || lekarId == null)
             {
-                return null; // Nisam punio bazu radi provere i da li puni listu, mislim da sam pogodio implementaciju
+                return null; // Nisam punio bazu radi provere i da li puni listu, mislim da sam pogodio implementaciju 
             }                // Opet vracam null :)
 
             var kreiraniPacijent = _pacijentRepository.UnesiPacijenta(dataPacijent);

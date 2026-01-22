@@ -57,10 +57,10 @@ namespace InformacioniSistemZU.BusinessModell.Services
                                                                                       
             if(pacijenti.Count() < 5)
             {
-                pacijenti.Add(new Pacijent());          // Radi. Mislim da je sad Ok
-            }                                           // Cekam odgovor 
-            else                                        // Video sam ono da umesto null bacam throw new exception ali za to sigurno treba posebna validacija
-            {                                           // Je l' to sa onim exception Handler - om?
+                pacijenti.Add(new Pacijent());          // Radi. Moze ovako ali msm da moze i bolje da se napise. Posle ces shvatiti kad koristimo debug-er
+            }                                           // Ne, Exception Handler je druga prica. Objasnicu ti posle ukratko
+            else                                         
+            {                                           
                 return null;
             }
 

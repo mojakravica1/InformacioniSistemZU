@@ -54,10 +54,22 @@ namespace InformacioniSistemZU.BusinessModell.Services
                 return null;
             }
             List<Pacijent> pacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == pacijentRequest.LekarId).ToList();
-                                                                                      
-            if(pacijenti.Count() < 5)
+
+            //if (pacijenti.Count >= 5)
+            //{
+            //    return null;
+            //}
+            
+            //ovaj donji deo radi samo ako se napuni listapa cijenta u objektu lekar
+            
+            //if (lekar.Pacijenti.Count >= 5)
+            //{
+            //    return null;
+            //}
+
+            if (pacijenti.Count() < 5)
             {
-                pacijenti.Add(new Pacijent());          // Radi. Moze ovako ali msm da moze i bolje da se napise. Posle ces shvatiti kad koristimo debug-er
+                pacijenti.Add(dataPacijent);          // Radi. Moze ovako ali msm da moze i bolje da se napise. Posle ces shvatiti kad koristimo debug-er
             }                                           // Ne, Exception Handler je druga prica. Objasnicu ti posle ukratko
             else                                         
             {                                           

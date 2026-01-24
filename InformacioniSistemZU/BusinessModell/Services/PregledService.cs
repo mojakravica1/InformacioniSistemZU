@@ -1,0 +1,69 @@
+﻿using AutoMapper;
+using InformacioniSistemZU.DataModel.Repositories;
+using InformacioniSistemZU.Dtos.Requests;
+using InformacioniSistemZU.Dtos.Responses;
+using InformacioniSistemZU.Models;
+
+namespace InformacioniSistemZU.BusinessModell.Services
+{
+    public class PregledService : IPregledService
+    {
+        private readonly IPregledRepository _pregledRepository;
+        private readonly IMapper _mapper;
+
+        public PregledService(IPregledRepository pregledRepository, IMapper mapper)
+        {
+            _pregledRepository = pregledRepository;
+            _mapper = mapper;
+        }
+
+        public PregledDtoResponse IzmeniPregled(int id, IzmeniPregledDtoRequest pregledRequest)
+        {
+            var dataPregled = _mapper.Map<Pregled>(pregledRequest);
+            if (dataPregled == null)
+            {
+                return null;
+            }
+            var izmenjeniPregled = _pregledRepository.IzmeniPregled(id, dataPregled);
+            var pregledResponse = _mapper.Map<PregledDtoResponse>(izmenjeniPregled);
+            return pregledResponse;
+        }
+
+        public PregledDtoResponse ObrisiPregled(int id)
+        {
+            var dataPregled = _pregledRepository.ObrisiPregled(id);
+            if (dataPregled == null)
+            {
+                return null;
+            }
+            var pregledResponse = _mapper.Map<PregledDtoResponse>(dataPregled);
+            return pregledResponse;
+        }
+
+        public PregledDtoResponse UnesiPregled(UnesiPregledDtoRequest pregledRequest)
+        {
+            var dataPregled = _mapper.Map<Pregled>(pregledRequest);
+            var unetiPregled = _pregledRepository.UnesiPregled(dataPregled);
+            var pregledResponse = _mapper.Map<PregledDtoResponse>(unetiPregled);
+            return pregledResponse;
+        }
+
+        public PregledDtoResponse VratiPregledPoId(int id)
+        {
+            var dataPregled = _pregledRepository.VratiPregledPoId(id);
+            if (dataPregled == null)
+            {
+                return null;
+            }
+            var pregledResponse = _mapper.Map<PregledDtoResponse>(dataPregled);
+            return pregledResponse;
+        }
+
+        public IEnumerable<PregledDtoResponse> VratiSvePreglede()
+        {
+            var sviPregledi = _pregledRepository.VratiSvePreglede();
+            var preglediResponse = _mapper.Map<IEnumerable<PregledDtoResponse>>(sviPregledi);
+            return preglediResponse;
+        }
+    }
+}

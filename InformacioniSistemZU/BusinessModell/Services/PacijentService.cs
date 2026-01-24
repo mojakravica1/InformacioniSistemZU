@@ -22,8 +22,46 @@ namespace InformacioniSistemZU.BusinessModell.Services
 
         public PacijentDtoResponse IzmeniPacijenta(int id, IzmeniPacijentaDtoRequest pacijentRequest)
         {
-            //TODO: razmisli da li ti ovde treba provera postojanja lekara i maksimalnog broja pacijenta
+
             var dataPacijent = _mapper.Map<Pacijent>(pacijentRequest);
+
+            var lekar = _lekarRepository.VratiLekaraPoId(pacijentRequest.LekarId);
+            if (lekar == null)
+            {
+                return null;
+            }
+            /*
+            int brojPacijenata = _pacijentRepository.VratiSvePacijente().Count(x => x.LekarId == pacijentRequest.LekarId);
+
+            if (brojPacijenata >= 5)               // Sta mislis o ovom kodu? Mislim da je bolji
+            {
+                return null; 
+            }*/
+
+
+            
+            List<Pacijent> pacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == pacijentRequest.LekarId).ToList();
+
+            if(pacijenti.Count() < 5)
+            {
+                pacijenti.Add(dataPacijent);
+            }
+            else
+            {
+                return null;
+            }
+
+            if (pacijentRequest.Jmbg.Length != 13)
+            {
+                return null;
+            }
+
+            if (pacijentRequest.DatumKreiranja.Date >= DateTime.Now)
+            {
+                return null;
+            }
+
+
             var izmenjeniPacijent = _pacijentRepository.IzmeniPacijenta(id, dataPacijent);
             if (izmenjeniPacijent == null)
             {
@@ -69,10 +107,25 @@ namespace InformacioniSistemZU.BusinessModell.Services
 
             if (pacijenti.Count() < 5)
             {
-                pacijenti.Add(dataPacijent);          // Radi. Moze ovako ali msm da moze i bolje da se napise. Posle ces shvatiti kad koristimo debug-er
-            }                                           // Ne, Exception Handler je druga prica. Objasnicu ti posle ukratko
+                pacijenti.Add(dataPacijent);          
+            }                                           
             else                                         
             {                                           
+                return null;
+            }
+
+            if(pacijentRequest.Jmbg.Length != 13)
+            {
+                return null;
+            }
+
+            if(pacijentRequest.DatumKreiranja.Date >= DateTime.Now)
+            {
+                return null;
+            }
+
+            if (pacijentRequest.IsActive == false)
+            {
                 return null;
             }
 

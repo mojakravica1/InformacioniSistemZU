@@ -7,6 +7,7 @@ namespace InformacioniSistemZU.Models
           public int Id { get; set; }
           public DateTime Datum { get; set; }
           public Dijagnoza Dijagnoza { get; set; }
+          public int DijagnozaId { get; set; }
          
           // FK prema lekaru
           public int? LekarId { get; set; }
@@ -17,6 +18,5 @@ namespace InformacioniSistemZU.Models
           public int? PacijentId { get; set; }
           [ForeignKey(nameof(PacijentId))]
           public Pacijent Pacijent { get; set; }
-
     }
 }

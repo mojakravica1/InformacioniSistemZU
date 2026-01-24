@@ -1,5 +1,6 @@
 ﻿using InformacioniSistemZU.MainDbContext;
 using InformacioniSistemZU.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformacioniSistemZU.DataModel.Repositories
 {
@@ -66,7 +67,7 @@ namespace InformacioniSistemZU.DataModel.Repositories
 
         public IEnumerable<Pacijent> VratiSvePacijente()
         {
-            return _dbContext.Pacijenti.ToList();
+            return _dbContext.Pacijenti.Include("Lekar").ToList();
         }
     }
 }

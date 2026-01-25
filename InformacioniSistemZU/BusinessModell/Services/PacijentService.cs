@@ -84,6 +84,8 @@ namespace InformacioniSistemZU.BusinessModell.Services
 
         public PacijentDtoResponse UnesiPacijenta(UnesiPacijentaDtoRequest pacijentRequest)
         {
+            //odmah ovde validacija request objekta
+
             var dataPacijent = _mapper.Map<Pacijent>(pacijentRequest);
 
             var lekar = _lekarRepository.VratiLekaraPoId(pacijentRequest.LekarId); 
@@ -100,20 +102,21 @@ namespace InformacioniSistemZU.BusinessModell.Services
                 return null;
             }
 
+            lekar.Pacijenti.Add(dataPacijent);
 
             //if (pacijenti.Count() < 5)
             //{
-            //    pacijenti.Add(dataPacijent);          
-            //}                                           
-            //else                                         
-            //{                                           
+            //    pacijenti.Add(dataPacijent);
+            //}
+            //else
+            //{
             //    return null;
             //}
 
             //ove ISTE validacije ti se ponavljaju u metodi iznad. Bolje bi bilo da validacije izvedes u novu metodu koju ces pozivati na ona mesta.
             //ako odemo korak dalje mozemo i kreirati Interface pa klasu IPacijentValidator gde ce biti te metode, ali i ne mora. Dovoljno je samo nova metoda u ovoj klasi
             //takodje ove validacije treba da se obave pre biznis validacija, na samom pocetku metode. Ako ti je poslao nevalidne podatke za ovo nema potrebe da idemo u bazu i ucitavamo lekara.
-            if(pacijentRequest.Jmbg.Length != 13)
+            if (pacijentRequest.Jmbg.Length != 13)
             {
                 return null;
             }

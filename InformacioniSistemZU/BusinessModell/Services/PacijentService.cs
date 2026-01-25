@@ -91,29 +91,28 @@ namespace InformacioniSistemZU.BusinessModell.Services
             {
                 return null;
             }
-            List<Pacijent> pacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == pacijentRequest.LekarId).ToList();
+            //List<Pacijent> pacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == pacijentRequest.LekarId).ToList();
 
-            //if (pacijenti.Count >= 5)
-            //{
-            //    return null;
-            //}
-            
-            //ovaj donji deo radi samo ako se napuni listapa cijenta u objektu lekar
-            
-            //if (lekar.Pacijenti.Count >= 5)
-            //{
-            //    return null;
-            //}
-
-            if (pacijenti.Count() < 5)
+            //o ovom resenju sam ti pricao. Pogledaj u repositorijumu metodu VratiLekaraPoId
+            //istu logiku primeni i u validaciji kod izmene pacijenta
+            if (lekar.Pacijenti.Count > 4)
             {
-                pacijenti.Add(dataPacijent);          
-            }                                           
-            else                                         
-            {                                           
                 return null;
             }
 
+
+            //if (pacijenti.Count() < 5)
+            //{
+            //    pacijenti.Add(dataPacijent);          
+            //}                                           
+            //else                                         
+            //{                                           
+            //    return null;
+            //}
+
+            //ove ISTE validacije ti se ponavljaju u metodi iznad. Bolje bi bilo da validacije izvedes u novu metodu koju ces pozivati na ona mesta.
+            //ako odemo korak dalje mozemo i kreirati Interface pa klasu IPacijentValidator gde ce biti te metode, ali i ne mora. Dovoljno je samo nova metoda u ovoj klasi
+            //takodje ove validacije treba da se obave pre biznis validacija, na samom pocetku metode. Ako ti je poslao nevalidne podatke za ovo nema potrebe da idemo u bazu i ucitavamo lekara.
             if(pacijentRequest.Jmbg.Length != 13)
             {
                 return null;

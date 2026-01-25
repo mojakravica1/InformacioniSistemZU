@@ -57,7 +57,7 @@ namespace InformacioniSistemZU.DataModel.Repositories
 
         public Lekar VratiLekaraPoId(int id)
         {
-            return _dbContext.Lekari.FirstOrDefault(x => x.Id == id);
+            return _dbContext.Lekari.Include(l => l.Pacijenti).FirstOrDefault(x => x.Id == id);
         }
 
         public Lekar UnesiLekara(Lekar lekar)

@@ -3,6 +3,7 @@ using InformacioniSistemZU.DataModel.Repositories;
 using InformacioniSistemZU.Dtos.Requests;
 using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
+using Microsoft.Identity.Client;
 using System.Data;
 
 namespace InformacioniSistemZU.BusinessModell.Services
@@ -20,9 +21,11 @@ namespace InformacioniSistemZU.BusinessModell.Services
             _lekarRepository = lekarRepository;
         }
 
+       
         public PacijentDtoResponse IzmeniPacijenta(int id, IzmeniPacijentaDtoRequest pacijentRequest)
         {
-
+            ValidacijaPodataka(pacijentRequest.Jmbg, pacijentRequest.DatumKreiranja, pacijentRequest.IsActive);
+            
             var dataPacijent = _mapper.Map<Pacijent>(pacijentRequest);
 
             var lekar = _lekarRepository.VratiLekaraPoId(pacijentRequest.LekarId);
@@ -30,36 +33,13 @@ namespace InformacioniSistemZU.BusinessModell.Services
             {
                 return null;
             }
-            /*
-            int brojPacijenata = _pacijentRepository.VratiSvePacijente().Count(x => x.LekarId == pacijentRequest.LekarId);
 
-            if (brojPacijenata >= 5)               // Sta mislis o ovom kodu? Mislim da je bolji
-            {
-                return null; 
-            }*/
-
-
-            
-            List<Pacijent> pacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == pacijentRequest.LekarId).ToList();
-
-            if(pacijenti.Count() < 5)
-            {
-                pacijenti.Add(dataPacijent);
-            }
-            else
+            if(lekar.Pacijenti.Count() > 4)
             {
                 return null;
             }
 
-            if (pacijentRequest.Jmbg.Length != 13)
-            {
-                return null;
-            }
-
-            if (pacijentRequest.DatumKreiranja.Date >= DateTime.Now)
-            {
-                return null;
-            }
+            lekar.Pacijenti.Add(dataPacijent);
 
 
             var izmenjeniPacijent = _pacijentRepository.IzmeniPacijenta(id, dataPacijent);
@@ -84,7 +64,7 @@ namespace InformacioniSistemZU.BusinessModell.Services
 
         public PacijentDtoResponse UnesiPacijenta(UnesiPacijentaDtoRequest pacijentRequest)
         {
-            //odmah ovde validacija request objekta
+            ValidacijaPodataka(pacijentRequest.Jmbg, pacijentRequest.DatumKreiranja, pacijentRequest.IsActive);
 
             var dataPacijent = _mapper.Map<Pacijent>(pacijentRequest);
 
@@ -93,47 +73,35 @@ namespace InformacioniSistemZU.BusinessModell.Services
             {
                 return null;
             }
-            //List<Pacijent> pacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == pacijentRequest.LekarId).ToList();
 
-            //o ovom resenju sam ti pricao. Pogledaj u repositorijumu metodu VratiLekaraPoId
-            //istu logiku primeni i u validaciji kod izmene pacijenta
             if (lekar.Pacijenti.Count > 4)
             {
                 return null;
             }
 
             lekar.Pacijenti.Add(dataPacijent);
-
-            //if (pacijenti.Count() < 5)
-            //{
-            //    pacijenti.Add(dataPacijent);
-            //}
-            //else
-            //{
-            //    return null;
-            //}
-
-            //ove ISTE validacije ti se ponavljaju u metodi iznad. Bolje bi bilo da validacije izvedes u novu metodu koju ces pozivati na ona mesta.
-            //ako odemo korak dalje mozemo i kreirati Interface pa klasu IPacijentValidator gde ce biti te metode, ali i ne mora. Dovoljno je samo nova metoda u ovoj klasi
-            //takodje ove validacije treba da se obave pre biznis validacija, na samom pocetku metode. Ako ti je poslao nevalidne podatke za ovo nema potrebe da idemo u bazu i ucitavamo lekara.
-            if (pacijentRequest.Jmbg.Length != 13)
-            {
-                return null;
-            }
-
-            if(pacijentRequest.DatumKreiranja.Date >= DateTime.Now)
-            {
-                return null;
-            }
-
-            if (pacijentRequest.IsActive == false)
-            {
-                return null;
-            }
-
+            
             var kreiraniPacijent = _pacijentRepository.UnesiPacijenta(dataPacijent);
             var response = _mapper.Map<PacijentDtoResponse>(kreiraniPacijent);
             return response;
+        }
+
+        private void ValidacijaPodataka(string jmbg, DateTime datumKreiranja, bool isActive)
+        {
+            if (string.IsNullOrEmpty(jmbg) || jmbg.Length != 13)
+            {
+                throw new ArgumentException("JMBG mora imati tacno 13 karaktera");
+            }
+
+            if (datumKreiranja.Date > DateTime.Now)
+            {
+                throw new ArgumentException("Datum unosa ne sme biti u buducnosti");
+            }
+
+            if (!isActive)
+            {
+                throw new ArgumentException("Novi ili izmenjeni pacijent mora biti aktivan");
+            }
         }
 
         public PacijentDtoResponse VratiPacijentaPoId(int id)

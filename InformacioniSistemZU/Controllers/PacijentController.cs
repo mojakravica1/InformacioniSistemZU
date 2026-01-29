@@ -23,15 +23,26 @@ namespace InformacioniSistemZU.Controllers
             return Ok(sviPacijenti);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult VratiPacijentaPoId(int id)
+        [HttpGet("{pacijentid:int}")]
+        public IActionResult VratiPacijentaPoId(int pacijentid)
         {
-            var pacijent = _pacijentService.VratiPacijentaPoId(id);
-            if (pacijent == null)
+            var pacijent = _pacijentService.VratiPacijentaPoId(pacijentid);
+            if (pacijentid == null)
             {
                 return NotFound();
             }
             return Ok(pacijent);
+        }
+
+        [HttpGet("pacijenti/{lekarid:int}")]
+        public IActionResult VratiSvePacijentePoIdLekara(int lekarid)
+        {
+            var pacijenti = _pacijentService.VratiSvePacijentePoIdLekara(lekarid);
+            if (lekarid == null)
+            {
+                return NotFound();
+            }
+            return Ok(pacijenti);
         }
 
         [HttpPost]

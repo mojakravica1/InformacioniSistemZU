@@ -23,6 +23,8 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 
         public LekarDtoResponse IzmeniLekara(int id, IzmeniLekaraDtoRequest lekarRequest)
         {
+            BrojGodina(lekarRequest.DatumRodjenja);
+
             var dataLekar = _mapper.Map<Lekar>(lekarRequest);
             var izmenjeniLekar = _lekarRepository.IzmeniLekara(id, dataLekar);
             if (izmenjeniLekar == null)
@@ -46,6 +48,8 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 
         public LekarDtoResponse UnesiLekara(UnesiLekaraDtoRequest lekarRequest)
         {
+            BrojGodina(lekarRequest.DatumRodjenja);
+
             var dataLekar = _mapper.Map<Lekar>(lekarRequest);
             var specijalnostId = _specijalnostRepository.VratiPoId(lekarRequest.SpecijalnostId); 
             if (specijalnostId == null)                                                            
@@ -69,6 +73,17 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
             var dataLekar = _lekarRepository.VratiSveLekare();
             var bmLekar = _mapper.Map<IEnumerable<LekarDtoResponse>>(dataLekar);
             return bmLekar;
+        }
+
+        private void BrojGodina(DateTime datumRodjenja)
+        {
+            var godinaRodjenja = datumRodjenja.Year;
+            var danas = DateTime.Now.Year;
+            var brojGodina = danas - godinaRodjenja;
+            if (brojGodina > 70)
+            {
+                throw new ArgumentOutOfRangeException("Ne mozete uneti ili izmeniti lekara ukoliko ima vise od 70 godina.");
+            }
         }
     }
 }

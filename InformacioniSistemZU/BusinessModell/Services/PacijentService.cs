@@ -121,5 +121,16 @@ namespace InformacioniSistemZU.BusinessModell.Services
             var response = _mapper.Map<IEnumerable<PacijentDtoResponse>>(dataPacijenti);
             return response;
         }
+
+        public IEnumerable<PacijentDtoResponse> VratiSvePacijentePoIdLekara(int id)
+        {
+            var dataPacijenti = _pacijentRepository.VratiSvePacijente().Where(x => x.LekarId == id);
+            if(dataPacijenti == null)
+            {
+                return null;
+            }
+            var response = _mapper.Map<IEnumerable<PacijentDtoResponse>>(dataPacijenti);
+            return response;
+        }
     }
 }

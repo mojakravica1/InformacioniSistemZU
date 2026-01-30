@@ -5,6 +5,7 @@ using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Data;
+using System.Linq;
 
 namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 {
@@ -13,12 +14,15 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
         private readonly ILekarRepository _lekarRepository;
         private readonly IMapper _mapper;
         private readonly ISpecijalnostRepository _specijalnostRepository;
+        private readonly IPregledRepository _pregledRepository;
 
-        public LekarService(ILekarRepository lekarRepository, IMapper mapper, ISpecijalnostRepository specijalnostRepository)
+        public LekarService(ILekarRepository lekarRepository, IMapper mapper, ISpecijalnostRepository specijalnostRepository,
+                            IPregledRepository pregledRepository)
         {
             _lekarRepository = lekarRepository;
             _mapper = mapper;
             _specijalnostRepository = specijalnostRepository;
+            _pregledRepository = pregledRepository;
         }
 
         public LekarDtoResponse IzmeniLekara(int id, IzmeniLekaraDtoRequest lekarRequest)
@@ -66,6 +70,46 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
             var dataLekar = _lekarRepository.VratiLekaraPoId(id);
             var bmLekar = _mapper.Map<LekarDtoResponse>(dataLekar);
             return bmLekar;
+        }
+
+        public IEnumerable<LekarDtoResponse> VratiLekarePoImenu(string ime)
+        {
+            if(string.IsNullOrWhiteSpace(ime))                                  // Ne mogu da resim ovo
+            {
+                return null;
+            }
+
+            var lekari = _lekarRepository.VratiSveLekare().Where(x => x.Ime.ToLower() == ime.ToLower());
+            if(lekari == null)
+            {
+                return null;
+            }
+
+            var lekariResponse = _mapper.Map<IEnumerable<LekarDtoResponse>>(lekari);
+            return lekariResponse;
+        }
+
+        public IEnumerable<PacijentDtoResponse> VratiPacijentePoIdLekara(int id)
+        {
+            var lekar = _lekarRepository.VratiLekaraPoId(id);
+            if (lekar == null)
+            {
+                return null;
+            }
+            var pacijenti = lekar.Pacijenti;
+            var pacijentiResponse = _mapper.Map<IEnumerable<PacijentDtoResponse>>(pacijenti);
+            return pacijentiResponse;
+        }
+
+        public IEnumerable<PregledDtoResponse> VratiPregledePoSpecijalnostId(int id)
+        {
+            var pregledi = _pregledRepository.VratiSvePreglede().Where(x => x.Lekar.SpecijalnostId == id);
+            if (pregledi == null)
+            {
+                return null;                                                // Mnogo sam se uvrteo, ne znam da li je dobro
+            }
+            var preglediResponse = _mapper.Map<IEnumerable<PregledDtoResponse>>(pregledi);
+            return preglediResponse;
         }
 
         public IEnumerable<LekarDtoResponse> VratiSveLekare()

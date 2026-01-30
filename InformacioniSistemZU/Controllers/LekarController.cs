@@ -37,6 +37,35 @@ namespace InformacioniSistemZU.Controllers
             return Ok(lekarExist);
         }
 
+        [HttpGet("pacijenti/{lekarid:int}")]
+        public IActionResult VratiPacijentePoIdLekara(int lekarid)
+        {
+            var pacijenti = _lekarservice.VratiPacijentePoIdLekara(lekarid);
+            return Ok(pacijenti);
+        }
+
+        [HttpGet("pretrage/{ime}")]
+        public IActionResult VratiLekarePoImenu(string ime)
+        {
+            var lekari = _lekarservice.VratiLekarePoImenu(ime);
+            if (lekari == null)
+            {
+                return NotFound();
+            }
+            return Ok(lekari);
+        }
+
+        [HttpGet("specijalnost/{id}")]
+        public IActionResult VratiPregledePoSpecijalnostId(int id)
+        {
+            var pregledi = _lekarservice.VratiPregledePoSpecijalnostId(id);
+            if (pregledi == null)
+            {
+                return NotFound();
+            }
+            return Ok(pregledi);
+        }
+
         [HttpPost]
         public IActionResult SacuvajLekara(UnesiLekaraDtoRequest unesiLekara)
         {

@@ -63,7 +63,7 @@ namespace InformacioniSistemZU.DataModel.Repositories
 
         public IEnumerable<Pregled> VratiSvePreglede()
         {
-            return _dbContext.Pregledi.ToList();
+            return _dbContext.Pregledi.Include(p => p.Lekar).ToList();
         }
     }
 }

@@ -34,16 +34,6 @@ namespace InformacioniSistemZU.Controllers
             return Ok(pacijent);
         }
 
-        [HttpGet("pacijenti/{lekarid:int}")]
-        public IActionResult VratiSvePacijentePoIdLekara(int lekarid)
-        {
-            var pacijenti = _pacijentService.VratiSvePacijentePoIdLekara(lekarid);
-            if (lekarid == null)
-            {
-                return NotFound();
-            }
-            return Ok(pacijenti);
-        }
 
         [HttpPost]
         public IActionResult SacuvajPacijenta(UnesiPacijentaDtoRequest unesiPacijenta)

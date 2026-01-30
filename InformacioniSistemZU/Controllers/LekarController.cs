@@ -37,6 +37,7 @@ namespace InformacioniSistemZU.Controllers
             return Ok(lekarExist);
         }
 
+        //ispravna ruta bi bila Lekar/1/pacijenti napisi je u takvom obliku
         [HttpGet("pacijenti/{lekarid:int}")]
         public IActionResult VratiPacijentePoIdLekara(int lekarid)
         {
@@ -44,6 +45,12 @@ namespace InformacioniSistemZU.Controllers
             return Ok(pacijenti);
         }
 
+        //ispravna ruta bi bila Lekar
+        //na primer Lekar?ime='Nikola'
+        //vidi ovde pokasnjenje primer: https://stackoverflow.com/questions/4024271/rest-api-best-practices-where-to-put-parameters
+        //mozes da napravis i jednu zajednicku metodu gde bi u query parametru stavio sve filtere pretrage
+        //ali prvo odradi ove pojedinacne, mada je zajednicka metoda najbolje resenje
+        //npr: Lekar?ime='Nikola'&specijalnostId=1&jmbg=1234
         [HttpGet("pretrage/{ime}")]
         public IActionResult VratiLekarePoImenu(string ime)
         {
@@ -55,6 +62,8 @@ namespace InformacioniSistemZU.Controllers
             return Ok(lekari);
         }
 
+        //ovde vracas preglede. Znaci glavni RESURS ti je pregled. Prema tome trebalo bi da ide u taj kontroler
+        //pravilo za rutiranje isto kao kod pretrage lekara po nazivu
         [HttpGet("specijalnost/{id}")]
         public IActionResult VratiPregledePoSpecijalnostId(int id)
         {

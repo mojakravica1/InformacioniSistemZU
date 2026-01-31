@@ -77,7 +77,10 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
         public IEnumerable<LekarDtoResponse> VratiLekarePoImenu(string ime)
         {
             var lekari = _lekarRepository.VratiSveLekare().Where(x => x.Ime.ToLower().Contains(ime.ToLower()));
-            if(lekari == null)
+            //vise sam tipovao na metodu StartsWith. Razlika je sto bi Contains za unetu vrednost 'arko' vratio rezultat dok StartsWith bi vratio samo za 'Mar..'
+            //Svakako ce i ovo tvoje raditi za 'Mar' ali vraca i rezultate koji nisu u skladu sa zahtevom. No nebitno...
+            //istrazi dobro te metode za manipulaciju sa stringovima, koriste se dosta
+            if (lekari == null)
             {
                 return null;
             }

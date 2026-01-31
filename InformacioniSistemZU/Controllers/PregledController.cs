@@ -34,6 +34,12 @@ namespace InformacioniSistemZU.Controllers
         }
 
         [HttpGet("lekar/{specijalnostid:int}")]
+        //opet mislim da ruta nije dobra. Tebi trenutna ruta izgleda ovako - api/Pregled/lekar/1
+        //iz nje se ne moze jasno zakljuciti da vracas preglede za specijalnost sa id-em 1, cak je intuitivno da vracas preglede lekara sa id-em 1
+        //api/Pregled/Lekar?specijalnostId=1
+        //api/Pregled/specijalistickiPregledId=1
+        //msm da bi neka od ove 2 bila odgovarajuca. Mrzi me da guglam sad da vidim tacno.
+        //Proguglaj,procitaj malo oko pravila rutiranja u REST API-jima
         public IActionResult VratiPregledPoSpecijalnostId(int specijalnostid)
         {
             var pregledi = _pregledService.VratiPregledePoSpecijalnostId(specijalnostid);

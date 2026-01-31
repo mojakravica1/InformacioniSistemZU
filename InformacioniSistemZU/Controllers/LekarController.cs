@@ -54,7 +54,10 @@ namespace InformacioniSistemZU.Controllers
         [HttpGet("{ime}")]
         public IActionResult VratiLekarePoImenu(string ime)
         {
-            var lekari = _lekarservice.VratiLekarePoImenu(ime);
+            var lekari = _lekarservice.VratiLekarePoImenu(ime); //i dalje mislim da bi bolja ruta bila ova koju sam predlozio - api/Lekar?ime='Nikola'.
+                                                                //tvoja trenutna ruta je - api/Lekar/Nikola . Svakako ce raditi i sa njom, ovo su finese
+                                                                //Nisi uspeo da izvedes ili si nasao neko drugo misljenje po netu?
+                                                                //Fali ti i validacija po polu (stoji u zahtevu).
             if (lekari == null)
             {
                 return NotFound();

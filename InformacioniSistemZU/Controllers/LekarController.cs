@@ -37,8 +37,8 @@ namespace InformacioniSistemZU.Controllers
             return Ok(lekarExist);
         }
 
-        //ispravna ruta bi bila Lekar/1/pacijenti napisi je u takvom obliku
-        [HttpGet("pacijenti/{lekarid:int}")]
+       
+        [HttpGet("{lekarid:int}/pacijenti")]
         public IActionResult VratiPacijentePoIdLekara(int lekarid)
         {
             var pacijenti = _lekarservice.VratiPacijentePoIdLekara(lekarid);
@@ -51,7 +51,7 @@ namespace InformacioniSistemZU.Controllers
         //mozes da napravis i jednu zajednicku metodu gde bi u query parametru stavio sve filtere pretrage
         //ali prvo odradi ove pojedinacne, mada je zajednicka metoda najbolje resenje
         //npr: Lekar?ime='Nikola'&specijalnostId=1&jmbg=1234
-        [HttpGet("pretrage/{ime}")]
+        [HttpGet("{ime}")]
         public IActionResult VratiLekarePoImenu(string ime)
         {
             var lekari = _lekarservice.VratiLekarePoImenu(ime);
@@ -62,18 +62,6 @@ namespace InformacioniSistemZU.Controllers
             return Ok(lekari);
         }
 
-        //ovde vracas preglede. Znaci glavni RESURS ti je pregled. Prema tome trebalo bi da ide u taj kontroler
-        //pravilo za rutiranje isto kao kod pretrage lekara po nazivu
-        [HttpGet("specijalnost/{id}")]
-        public IActionResult VratiPregledePoSpecijalnostId(int id)
-        {
-            var pregledi = _lekarservice.VratiPregledePoSpecijalnostId(id);
-            if (pregledi == null)
-            {
-                return NotFound();
-            }
-            return Ok(pregledi);
-        }
 
         [HttpPost]
         public IActionResult SacuvajLekara(UnesiLekaraDtoRequest unesiLekara)

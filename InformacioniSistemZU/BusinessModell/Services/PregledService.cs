@@ -48,6 +48,17 @@ namespace InformacioniSistemZU.BusinessModell.Services
             return pregledResponse;
         }
 
+        public IEnumerable<PregledDtoResponse> VratiPregledePoSpecijalnostId(int specijanlnostid)
+        {
+            var pregledi = _pregledRepository.VratiSvePreglede().Where(x => x.Lekar.SpecijalnostId == specijanlnostid);
+            if (pregledi == null)
+            {
+                return null;
+            }
+            var preglediResponse = _mapper.Map<IEnumerable<PregledDtoResponse>>(pregledi);
+            return preglediResponse;
+        }
+
         public PregledDtoResponse VratiPregledPoId(int id)
         {
             var dataPregled = _pregledRepository.VratiPregledPoId(id);

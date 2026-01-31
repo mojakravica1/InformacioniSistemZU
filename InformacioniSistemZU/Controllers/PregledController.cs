@@ -33,6 +33,17 @@ namespace InformacioniSistemZU.Controllers
             return Ok(pregled);
         }
 
+        [HttpGet("lekar/{specijalnostid:int}")]
+        public IActionResult VratiPregledPoSpecijalnostId(int specijalnostid)
+        {
+            var pregledi = _pregledService.VratiPregledePoSpecijalnostId(specijalnostid);
+            if(pregledi == null)
+            {
+                return NotFound();
+            }
+            return Ok(pregledi);
+        }
+
         [HttpPost]
         public IActionResult SacuvajPregled(UnesiPregledDtoRequest unesiPregled)
         {

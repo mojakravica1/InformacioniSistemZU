@@ -13,6 +13,5 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
         LekarDtoResponse ObrisiLekara(int id);
         IEnumerable<PacijentDtoResponse> VratiPacijentePoIdLekara(int id);
         IEnumerable<LekarDtoResponse> VratiLekarePoImenu(string ime);
-        IEnumerable<PregledDtoResponse> VratiPregledePoSpecijalnostId(int id);
     }
 }

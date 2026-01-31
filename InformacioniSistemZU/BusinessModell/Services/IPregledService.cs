@@ -10,5 +10,6 @@ namespace InformacioniSistemZU.BusinessModell.Services
         PregledDtoResponse UnesiPregled(UnesiPregledDtoRequest pregledRequest);
         PregledDtoResponse IzmeniPregled(int id, IzmeniPregledDtoRequest pregledRequest);
         PregledDtoResponse ObrisiPregled(int id);
+        IEnumerable<PregledDtoResponse> VratiPregledePoSpecijalnostId(int specijanlnostid);
     }
 }

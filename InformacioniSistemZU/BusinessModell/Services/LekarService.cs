@@ -4,8 +4,10 @@ using InformacioniSistemZU.Dtos.Requests;
 using InformacioniSistemZU.Dtos.Responses;
 using InformacioniSistemZU.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System;
 using System.Data;
 using System.Linq;
+using static InformacioniSistemZU.Enums.Enums;
 
 namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 {
@@ -74,15 +76,7 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
 
         public IEnumerable<LekarDtoResponse> VratiLekarePoImenu(string ime)
         {
-            if(string.IsNullOrWhiteSpace(ime))                                  // Ne mogu da resim ovo
-            {
-                return null;
-            }
-            //na dobrom si putu, stim sto ovo radi samo ako se unese celo ime. Npr Nikola ce da vrati a Nik nece
-            //treba samo jos jednu sitnicu da doradis
-            //istrazi malo o metodama za manipulaciju sa stringovima. Super sto si stavio lower metodu. Bravo za to!
-            //U NASTAVKU JE HINT PA NEMOJ DA GLEDAS DOK NE ISTRAZIS SAM SVE MOGUCNOSTI. TEK AKO SAM NE RESIS! NE GLEDAJ DALJE!!! x => x.Ime.ToLower().nekaMetoda() == ime.ToLower()   
-            var lekari = _lekarRepository.VratiSveLekare().Where(x => x.Ime.ToLower() == ime.ToLower());
+            var lekari = _lekarRepository.VratiSveLekare().Where(x => x.Ime.ToLower().Contains(ime.ToLower()));
             if(lekari == null)
             {
                 return null;
@@ -103,20 +97,7 @@ namespace InformacioniSistemZU.BusinessModell.RepositoriesBM
             var pacijentiResponse = _mapper.Map<IEnumerable<PacijentDtoResponse>>(pacijenti);
             return pacijentiResponse;
         }
-
-        //msm da je ovde dobra logika skroz. Samo pogresan servis, posledicno jer si promasio kontrolera
-        //takodje mozda je bolje da ulazni parametar nazivas konkretnije generalno.
-        //tj umesto 'int id' neka bude 'int specijalnostId'. U duzim metodama mozes da se pogubis koji se id na sta odnosi
-        public IEnumerable<PregledDtoResponse> VratiPregledePoSpecijalnostId(int id)
-        {
-            var pregledi = _pregledRepository.VratiSvePreglede().Where(x => x.Lekar.SpecijalnostId == id);
-            if (pregledi == null)
-            {
-                return null;                                                // Mnogo sam se uvrteo, ne znam da li je dobro
-            }
-            var preglediResponse = _mapper.Map<IEnumerable<PregledDtoResponse>>(pregledi);
-            return preglediResponse;
-        }
+        
 
         public IEnumerable<LekarDtoResponse> VratiSveLekare()
         {
